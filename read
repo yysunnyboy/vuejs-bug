@@ -1,0 +1,26 @@
+vuejs开发移动端过程中有一个需求：点击按钮后出现遮罩层，但是出现遮罩层之后页面还可以滚动，觉得体验不好，故处理成不能继续滚动的效果。
+
+解决方案1：
+    1、出现遮罩层之后，禁止页面的点击默认行为。
+   	document.addEventListener('touchstart',function(e){
+   		e.preventDefault();
+   	})
+出现的问题:
+	1.1如果执行该操作后，如果后续的交互逻辑在遮罩层，或者经过遮罩层有
+页面的跳转等交互，会导致后续的页面的点击事件全部失效。
+尝试在遮罩层消失or页面跳转后将removeEventListener,但是执行的函数
+内部应该怎么写???
+解决方案2：
+	2、出现遮罩层之后，通过处理外层容器的样式.
+	element.style{
+		overflow:hidden;
+	}
+思考的问题：
+	1、这个样式应该加给谁 ? body， i-container-box（单页的最外层容器）？
+	2、增加样式之后，当遮罩层消失之后需要做什么样式处理？
+出现遮罩层之后给body增加样式：
+	document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+当页面交互遮罩层消失之后：
+    document.getElementsByTagName('body')[0].style.overflow = 'auto'; 
+
+感触：解决问题的思路很关键，同一个问题的解决方式会有不同，但是找到其中最有效费时最少的方案是工程师一直在追求的。
